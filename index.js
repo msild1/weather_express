@@ -28,6 +28,7 @@ const getWeatherDataPromise = (url) => {
                     desc: desc,
                     city: city,
                     temp: temp,
+                    error: null,
                 }
                 resolve(result)
             })
@@ -48,6 +49,8 @@ app.all("/",urlencodedParser,function(req,res){
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
     getWeatherDataPromise(url).then(data => {
         res.render("index",data)
+    }).catch(error => {
+        res.render("index", {error: "Problem getting data, try again"})
     })
 })
 
